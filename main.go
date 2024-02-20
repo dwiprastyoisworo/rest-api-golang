@@ -18,7 +18,8 @@ func main() {
 	userService := services.NewUserService(userRepository, db)
 	userController := controllers.NewUserController(userService)
 
-	http.HandleFunc("/student", userController.Get)
+	http.HandleFunc("/users", userController.Get)
+	http.HandleFunc("/users/create", userController.Insert)
 	fmt.Println("Web Starting")
 	http.ListenAndServe(":8085", nil)
 }

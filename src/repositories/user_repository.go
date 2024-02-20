@@ -35,3 +35,21 @@ func (r UserRepository) Get(ctx context.Context, db *sql.DB) ([]entity.Users, er
 	}
 	return users, nil
 }
+
+func (r UserRepository) Insert(ctx context.Context, db *sql.DB, user entity.UserRequest) (int, error) {
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return 0, nil
+	}
+	defer conn.Close()
+	stmt, err := conn.PrepareContext(ctx, `insert into users (id, "name", address) values ($1, $2, $3)`)
+	if err != nil {
+		return 0, err
+	}
+	defer stmt.Close()
+	_, err = stmt.ExecContext(ctx, user.ID, user.Name, user.Address)
+	if err != nil {
+		return 0, err
+	}
+	return 1, nil
+}

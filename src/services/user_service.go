@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"database/sql"
+	"github.com/google/uuid"
 	"rest-api-golang/src/entity"
 	"rest-api-golang/src/repositories"
 )
@@ -22,4 +23,14 @@ func (s UserService) Get(ctx context.Context) ([]entity.Users, error) {
 		return []entity.Users{}, nil
 	}
 	return users, nil
+}
+
+func (s UserService) Insert(ctx context.Context, user entity.UserRequest) (int, error) {
+	// set data id to user from google uuid
+	user.ID = uuid.New().String()
+	result, err := s.UserRepository.Insert(ctx, s.db, user)
+	if err != nil {
+		return 0, err
+	}
+	return result, nil
 }

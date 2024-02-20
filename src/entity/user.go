@@ -6,14 +6,15 @@ type Users struct {
 	Address string
 }
 
+// create struct UserRequest for request body and all colomn is required
+type UserRequest struct {
+	ID      string `json:"id"`
+	Name    string `json:"name" validate:"required"`
+	Address string `json:"address" validate:"required"`
+}
 type Student struct {
 	ID      string
 	Name    string
 	Address string
 	Grade   int
-}
-
-var DataStudent = []Student{
-	{"01", "Ali", "", 5},
-	{"02", "Adi", "", 6},
 }
